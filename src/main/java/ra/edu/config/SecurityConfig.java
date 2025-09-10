@@ -57,11 +57,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(httpReq->
                         httpReq.requestMatchers("/api/auth/**").permitAll() // dang nhap , dang ky
-                                .requestMatchers("/api/user/**").hasRole("USER") // tu them tien to ROLE_
-                                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/api/manager/**").hasRole("MANAGER")
+//                                .requestMatchers("/api/user/**").hasRole("USER") // tu them tien to ROLE_
+//                                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+//                                .requestMatchers("/api/manager/**").hasRole("MANAGER")
                                 .requestMatchers("/api/user-manager/**").hasAnyRole("USER", "MANAGER")
-                                .anyRequest().authenticated() // phai xac thuc nhung ko con quyen
+                                .anyRequest().permitAll() // phai xac thuc nhung ko con quyen
                 )
                 .authenticationProvider(authenticationProvider())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // phi trang thai

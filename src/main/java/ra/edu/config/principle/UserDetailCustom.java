@@ -1,12 +1,10 @@
 package ra.edu.config.principle;
 
-import lombok.Builder;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 //@Builder
 @Setter
 public class UserDetailCustom implements UserDetails {

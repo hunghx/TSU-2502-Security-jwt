@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ra.edu.entity.User;
+import ra.edu.exception.NotFoundException;
 import ra.edu.repository.IUserRepository;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserDetailServiceCustom implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("login by username: "+username);
         // logic username là gì>>>>>
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username+" not found"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("ko tìm thấy username"));
         List<SimpleGrantedAuthority> roles = user.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))

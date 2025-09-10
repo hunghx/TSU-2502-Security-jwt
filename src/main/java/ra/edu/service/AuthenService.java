@@ -38,12 +38,16 @@ public class AuthenService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword()));
         }catch (Exception e){
             log.error("Invalid username or password");
+            log.warn("Invalid username or password",request.getUsername()+"-"+request.getPassword());
             return DataResponse.builder()
                     .success(false)
                     .error(e.getMessage())
                     .build();
+
         }
+
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        log.info("Login Successful",user.getFullName() );
         // tao token
         Map<String, Object> map = new HashMap<>();
         map.put("token",jwtProvider.generateToken(request.getUsername()));
