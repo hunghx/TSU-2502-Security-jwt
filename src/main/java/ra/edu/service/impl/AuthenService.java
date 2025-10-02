@@ -1,4 +1,4 @@
-package ra.edu.service;
+package ra.edu.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import ra.edu.config.jwt.JWTProvider;
 import ra.edu.dto.DataResponse;
 import ra.edu.dto.FormLogin;

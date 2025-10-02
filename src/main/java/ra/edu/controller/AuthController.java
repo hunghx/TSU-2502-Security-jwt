@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ra.edu.dto.DataResponse;
 import ra.edu.dto.FormLogin;
 import ra.edu.dto.FormRegister;
-import ra.edu.service.AuthenService;
+import ra.edu.service.impl.AuthenService;
 
 @RestController
 //@CrossOrigin("*")

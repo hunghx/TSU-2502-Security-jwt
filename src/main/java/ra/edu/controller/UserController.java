@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ra.edu.dto.DataResponse;
 import ra.edu.entity.User;
 import ra.edu.exception.NotFoundException;
-import ra.edu.service.UserService;
+import ra.edu.service.impl.UserService;
 
 @RestController
 public class UserController {
