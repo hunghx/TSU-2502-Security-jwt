@@ -66,10 +66,23 @@ public class AuthenService {
     public DataResponse<?> register(FormRegister request){
         Role role = null;
         // bien doi tu dto-> entity
-        if (request.getRole()!=null && request.getRole().equals("manager")){
-            role = roleRepository.findByRoleName(RoleName.ROLE_MANAGER).orElseThrow();
-        }else {
+//        if (request.getRole()!=null && request.getRole().equals("manager")){
+//            role = roleRepository.findByRoleName(RoleName.ROLE_MANAGER).orElseThrow();
+//        }else {
+//            role = roleRepository.findByRoleName(RoleName.ROLE_USER).orElseThrow();
+//        }
+        if (request.getRole() == null){
             role = roleRepository.findByRoleName(RoleName.ROLE_USER).orElseThrow();
+        }else {
+            switch (request.getRole()){
+                case "ROLE_ADMIN":
+                    role = roleRepository.findByRoleName(RoleName.ROLE_ADMIN).orElseThrow();
+                    break;
+                case "ROLE_USER":
+                default:
+                    role = roleRepository.findByRoleName(RoleName.ROLE_USER).orElseThrow();
+                    break;
+            }
         }
         User user = new User(
                 null,

@@ -19,7 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import ra.edu.config.jwt.JwtAuthTokenFilter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -50,18 +54,27 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOriginPatterns(Arrays.asList("http://127.0.0.1:5500"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+        corsConfiguration.setAllowCredentials(true);
+        return request -> corsConfiguration;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
-        http.cors(AbstractHttpConfigurer::disable)
+        http.cors(corsConfig-> corsConfig.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(httpReq->
                         httpReq.requestMatchers("/api/auth/**").permitAll() // dang nhap , dang ky
 //                                .requestMatchers("/api/user/**").hasRole("USER") // tu them tien to ROLE_
-//                                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
 //                                .requestMatchers("/api/manager/**").hasRole("MANAGER")
-                                .requestMatchers("/api/user-manager/**").hasAnyRole("USER", "MANAGER")
-                                .anyRequest().permitAll() // phai xac thuc nhung ko con quyen
+//                                .requestMatchers("/api/user-manager/**").hasAnyRole("USER", "MANAGER")
+                                .anyRequest().authenticated() // phai xac thuc nhung ko con quyen
                 )
                 .authenticationProvider(authenticationProvider())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // phi trang thai
